@@ -72,6 +72,8 @@ public class Task_Executor {
                 if (obj.surname.equals(surname)) {
                     temp = obj;
                     System.out.println("Работник " + surname + " родился в " + temp.birthday + " году");
+                    System.out.print("Возраст: ");
+                    temp.howOldrU();
                     return;
                 }
             }

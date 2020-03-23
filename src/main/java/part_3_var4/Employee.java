@@ -1,5 +1,8 @@
 package part_3_var4;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.Scanner;
 
 public class Employee {
@@ -36,6 +39,15 @@ public class Employee {
 
     public void print(){
         System.out.println(this.surname + " " + this.position + " " + this.salary + " " + this.birthday);
+    }
+
+    public void howOldrU(){
+        java.util.Calendar calendar = java.util.Calendar.getInstance(java.util.TimeZone.getDefault(), java.util.Locale.getDefault());
+        calendar.setTime(new java.util.Date());
+        int currentYear = calendar.get(java.util.Calendar.YEAR);
+
+
+        System.out.println(currentYear - this.birthday);
     }
 
 
