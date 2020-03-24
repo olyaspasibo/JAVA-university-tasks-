@@ -64,11 +64,8 @@ public class Task_Executor {
     }
 
     public void getBirthdayByName(String  surname) {
-
         Employee temp = new Employee();
-
-
-            for (Employee obj : this.employees) {
+         for (Employee obj : this.employees) {
                 if (obj.surname.equals(surname)) {
                     temp = obj;
                     System.out.println("Работник " + surname + " родился в " + temp.birthday + " году");
@@ -78,8 +75,6 @@ public class Task_Executor {
                 }
             }
             System.out.println("Нет работника с фамилией " + surname);
-
-
     }
 
 
@@ -87,7 +82,6 @@ public class Task_Executor {
         ArrayList<Employee> e = readFromCsv();
         Task_Executor employees = new Task_Executor(e);
         employees.printAllEmployees();
-
         System.out.println("--------------------------------------------");
         System.out.println("Увеличим всем зарплату на 15 процентов");
         System.out.println("--------------------------------------------");
@@ -101,16 +95,6 @@ public class Task_Executor {
         System.out.println("Выведем год рождения работника");
         System.out.println("--------------------------------------------");
         employees.getBirthdayByName("Крючкв");
-
-
-
-
-
-
-
-
-        //up the salary
-
 
     }
 
