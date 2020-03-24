@@ -1,38 +1,38 @@
-package dataBase;
+package dataBase.data;
 
 
 import java.util.Scanner;
 
 public class User {
-    public static String login;
-    public static String password;
-    public static String address;
-    public static String phone;
+    public String login;
+    public String password;
+    public String address;
+    public String phone;
 
     public User(String login, String password, String address, String phone){
-        User.login = login;
-        User.password = password;
-        User.address = address;
-        User.phone = phone;
+        this.login = login;
+        this.password = password;
+        this.address = address;
+        this.phone = phone;
     }
 
-    public static String getLogin() {
-        return login;
+    public String getLogin() {
+        return this.login;
     }
 
-    public static void setPassword(String password) {
-        User.password = password;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
-    public static void setAdress(String address) {
-        User.address = address;
+    public void setAdress(String address) {
+        this.address = address;
     }
 
-    public static void setPhone(String phone) {
-        User.phone = phone;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public static User signUp(){
+    public User(){
         Scanner in = new Scanner(System.in);
         System.out.print("Please, enter your login: ");
         String login = in.next();
@@ -42,8 +42,11 @@ public class User {
         String address = in.next();
         System.out.print("Your phone number: ");
         String phone = in.next();
-        User newUser = new User(login, password, address, phone);
-        return  newUser;
+        this.login = login;
+        this.password = password;
+        this.address = address;
+        this.phone = phone;
+
     }
 
     public static void signIn(){
