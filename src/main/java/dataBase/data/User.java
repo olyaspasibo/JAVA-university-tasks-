@@ -4,8 +4,11 @@ package dataBase.data;
 import java.sql.SQLException;
 import java.util.Scanner;
 
-import static dataBase.TestConnector.findUserByLogin;
-import static dataBase.TestConnector.findUserByPhone;
+
+import static dataBase.actions.AccountDB.createAccountInDB;
+import static dataBase.actions.UserDB.*;
+import static dataBase.data.Account.checkAccCode;
+import static dataBase.data.Account.checkAmount;
 
 public class User {
 
@@ -83,7 +86,6 @@ public class User {
             else if (findUserByLogin(login)) {
                 break;
             }
-            //else break;
         }
         return login;
     }
@@ -111,10 +113,8 @@ public class User {
             }
             //пользователь уже зарегистрирован в системе
             else if (findUserByPhone(phone)) {
-                //continue;
                 break;
             }
-            //else break;
         }
 
         return phone;
@@ -127,6 +127,60 @@ public class User {
         System.out.print("Please, enter your password: ");
         String password = in.next();
     }
+
+    public Account createAccount() throws SQLException {
+
+        System.out.println("В какой валюте вы хотите завести счет? \n" +
+                "1 - EUR \n" +
+                "2 - USD \n" +
+                "3 - RUB");
+        Integer accCode = checkAccCode();
+        System.out.println("Какую сумму внести на счет?");
+        Double amount = checkAmount();
+
+        String id = getIdByLogin(this.login);
+
+        Account newAcc = new Account(Integer.parseInt(id), amount, accCode);
+        createAccountIDB(newAcc);
+        System.out.println("Счет успешно создан!");
+        return newAcc;
+
+    }
+
+    public Account createAccount(Integer id, Double amount, Integer accCode) throws SQLException {
+        Account newAcc = new Account(id, amount, accCode);
+        createAccountInDB(newAcc);
+        return newAcc;
+
+    }
+
+    public void createAccount(Account newAcc) throws SQLException {
+        createAccountInDB(newAcc);
+
+
+    }
+
+//    public void makeTransation(String phone) throws SQLException {
+//        if (!findUserByPhone(phone)){
+//
+//            String in = getIdByPhone(this.phone);
+//            String out = getIdByPhone(phone);
+//            while (true) {
+//                System.out.println("Какую сумму перевести?");
+//                Scanner input = new Scanner(System.in);
+//                String sum = input.next();
+//                if (sum < this)
+//
+//            }
+//
+//        }
+//
+//        else {
+//
+//        }
+//    }
+
+
 
 
 }

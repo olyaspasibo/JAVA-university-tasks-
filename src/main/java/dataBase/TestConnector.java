@@ -1,8 +1,12 @@
 package dataBase;
 
+import dataBase.data.Account;
 import dataBase.data.User;
 
 import java.sql.*;
+
+import static dataBase.actions.UserDB.*;
+import static dataBase.data.User.signIn;
 
 public class TestConnector {
 
@@ -31,102 +35,64 @@ public class TestConnector {
         }
     }
 
-    public static void createUserinDB(User ex)throws SQLException{
-        Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/new_schema",
-                "student", "student");
-        Statement myStmnt = myConn.createStatement();
-        // Вам понадобится сам sql запрос
-        String sql = "INSERT INTO User (login, password, address, phone) VALUES ((?), (?), (?), (?))";
 
-        //Создаете PreparedStatement что-бы не забыть закрыть лучше открывать в try-with-resources
-        final PreparedStatement statement = myConn.prepareStatement(sql);
-        statement.setString(1, ex.login);
-        statement.setString(2, ex.password);
-        statement.setString(3, ex.address);
-        statement.setString(4, ex.phone);
-
-        //Выполняете сам запрос в базу.
-        statement.executeUpdate();
-    }
-
-
-    public static void findUser(String login, String password)throws SQLException{
-        Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/new_schema",
-                "student", "student");
-        String sql = "select count(*) from  User where User.login = (?) and User.password = (?);";
-        final PreparedStatement statement = myConn.prepareStatement(sql);
-
-        statement.setString(1, login);
-        statement.setString(2, password);
-
-        ResultSet myRs = statement.executeQuery();
-
-        while(myRs.next()){
-            if (myRs.getInt(1) == 1) {
-                System.out.println("You are successfully logged in!");
-                return;
-            } else if (myRs.getInt(1) > 1) {
-                System.out.println("WARNING! Database has duplicates. Sorry, system now is unavailable");
-                return;
-            }
-            }
-        System.out.println("No user with such credentials");
-        }
-
-
-    public static boolean findUserByLogin(String login)throws SQLException{
-        Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/new_schema",
-                "student", "student");
-        String sql = "select count(*) from  User where User.login = (?);";
-        final PreparedStatement statement = myConn.prepareStatement(sql);
-        statement.setString(1, login);
-        ResultSet myRs = statement.executeQuery();
-        while(myRs.next()){
-            if (myRs.getInt(1) == 1) {
-                System.out.println("User with " + login + " login already exists");
-                return false;
-            } else if (myRs.getInt(1) > 1) {
-                System.out.println("WARNING! Database has duplicates. Sorry, system now is unavailable");
-                return false;
-            }
-        }
-        return true;
-
-    }
-
-
-    public static boolean findUserByPhone(String phone)throws SQLException{
-        Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/new_schema",
-                "student", "student");
-        String sql = "select count(*) from  User where User.phone = (?);";
-        final PreparedStatement statement = myConn.prepareStatement(sql);
-        statement.setString(1, phone);
-        ResultSet myRs = statement.executeQuery();
-        while(myRs.next()){
-            if (myRs.getInt(1) == 1) {
-                System.out.println("User for " + phone + " phone number already exists");
-                return false;
-            } else if (myRs.getInt(1) > 1) {
-                System.out.println("WARNING! Database has duplicates. Sorry, system now is unavailable");
-                return false;
-            }
-        }
-        return true;
-    }
 
 
 
 
 
     public static void main(String[] args) throws SQLException {
+
+        //создание пользователя
+        //User testUser = new User(); //create user
+
+        User testUser2 = new User("olya.spasibo", "secret", "Saratov,Russia", "89271280405"); //create user
+        createUserinDB(testUser2);
+
+        //авторизация
+
+        //signIn();
+
+        //создание аккаунта у залогированного пользователя
+
+        Account testUser2Acc = testUser2.createAccount();
+
+        //пополнение счета
+
+        testUser2Acc.addToAmount(1500.0);
+
+
+        //перевод средств по номеру телефона другому аккаунту
+        String phone = "89271280405";
+        Account testUser2Account = findAccountByLogin(testUser2.login);
+        Account testUser3Account = findAccountByPhone(phone);
+        Double sumOfTransaсtion = 1000.0;
+        //check that money enough
+        if (testUser2Account.moneyAmountIsEnough(sumOfTransaсtion)){
+
+            testUser2Account.addToAmount(-sumOfTransaсtion);
+
+            testUser3Account.addToAmount(sumOfTransaсtion);
+
+
+        }
+
+
+
+
+        //просмотр истории операций по клиенту
         //createDatabaseConnection();
         Connection myConn = DriverManager.getConnection("jdbc:mysql://localhost:3306/new_schema",
                 "student", "student");
-        User testUser = new User(); //create user
-        //createUserinDB(testUser);
-        //findUser("user6", "qa_test1");
+
+        findUser("user6", "qa_test1");
+
+
+
+
 
     }
+
 
 
 }
